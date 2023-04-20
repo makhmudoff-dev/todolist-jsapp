@@ -16,3 +16,11 @@
 h1 {
   text-align: center;
 }
+
+ul {
+  text-align: left;
+  padding-left: 10%;
+  padding: 7%;
+  font-size: 2rem;
+  list-style: circle;
+}
