@@ -3,7 +3,6 @@
 const item = document.getElementById('box');
 const listItem = document.getElementById('list_item');
 const btn = document.getElementById('addItem');
-const removeitem = document.getElementById('removeItem');
 
 btn.addEventListener('click', () => {
   if (item.value !== '') {
