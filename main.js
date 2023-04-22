@@ -1,54 +1,96 @@
 'use strict';
 
-const inputBox = document.getElementById('box');
-const addItem = document.getElementById('addItem');
-const listItem = document.getElementById('list_item');
-const deleteBtn = document.getElementById('delete-button');
+window.onload = () => {
+  const form1 = document.querySelector('#addForm');
 
-// Event listeners
-inputBox.addEventListener('keyup', function () {
-  let userInput = inputBox.value;
-  if (userInput.trim() != 0) {
-    addItem.classList.add('active');
-  } else {
-    addItem.classList.remove('active');
+  let items = document.getElementById('items');
+  let submit = document.getElementById('submit');
+
+  let editItem = null;
+
+  form1.addEventListener('submit', addItem);
+  items.addEventListener('click', revomeItem);
+};
+
+const addItem = (e) => {
+  e.preventDefault();
+
+  if (submit.value != 'Submit') {
+    console.log('Hello');
+
+    editItem.target.parentNode.childNodes[0].data =
+      document.getElementById('item').value;
+
+    submit.value = 'Submit';
+    document.getElementById('item').value = '';
+
+    document.getElementById('labelsuccess').innerHTML =
+      'Text edited successfully';
+
+    document.getElementById('labelsuccess').style.display = 'block';
+
+    setTimeout(() => {
+      document.getElementById('labelsuccess').style.display = 'none';
+    }, 3000);
+
+    return false;
   }
-});
 
-addItem.addEventListener('click', todoAdd);
-listItem.addEventListener('click', todoDelete);
+  let newItem = document.getElementById('item').value;
+  if (newItem.trim() == '' || newItem.trim() == null) return false;
+  else document.getElementById('item').value = '';
 
-// Function
-function todoAdd(event) {
-  event.preventDefault();
+  let li = document.createElement('li');
+  li.classList = 'list-group-item';
 
-  const todoLi = document.createElement('li');
-  const key = (Math.random() + 1).toString().split('.')[1];
-  todoLi.innerText = inputBox.value;
-  todoLi.setAttribute('id', key);
+  let deleteBtn = document.createElement('button');
 
-  const todoDeleteBtn = document.createElement('button');
-  todoDeleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`;
-  todoDeleteBtn.classList.add('delete-button');
-  todoDeleteBtn.onclick = () => {
-    const _key = this.getAttribute('data-key');
-    document.getElementById(_key).remove();
-    this.remove();
-  };
+  deleteBtn.className = 'btn-danger btn btn-sm float-right delete';
 
-  todoDeleteBtn.setAttribute('data-key', key);
-  todoLi.appendChild(todoDeleteBtn);
+  deleteBtn.appendChild(document.createTextNode('Delete'));
 
-  todoMain.appendChild(todoLi);
+  let editButton = document.createElement('button');
 
-  inputBox.value = '';
+  editButton.className = 'btn-success btn btn-sm float-right edit';
 
-  addItem.classList.remove('active');
-}
+  editButton.appendChild(document.createTextNode('Edit'));
 
-const todoDelete = (e) => {
-  const item = e.target;
-  if (item.classList[0] === 'delete-button') {
-    listItem.removeChild(todoLi);
+  li.appendChild(document.createTextNode('newItem'));
+
+  li.appendChild(deleteButton);
+
+  li.appendChild(editButton);
+
+  items.appendChild(li);
+};
+
+const removeItem = (e) => {
+  e.preventDefault();
+
+  if (e.target.classList.contains('delete')) {
+    if (confirm('Are you sure you want to remove')) {
+      let li = e.target.parentNode;
+      items.removeChild(li);
+
+      document.getElementById('labelsuccess').innerHTML =
+        'Text deleted successfully';
+
+      document.getElementById('labelsuccess').style.display = 'block';
+
+      setTimeout(() => {
+        document.getElementById('labelsuccess').style.display = 'none';
+      }, 3000);
+    }
   }
+
+  if (e.target.classList.contains('edit')) {
+    document.getElementById('item').value =
+      e.target.parentNode.childNodes[0].data;
+    submit.value = 'EDIT';
+    editItem = e;
+  }
+};
+
+const toggleButton = (ref, btnID) => {
+  document.getElementById(btnID).disabled = false;
 };
