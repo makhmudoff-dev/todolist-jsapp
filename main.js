@@ -1,5 +1,4 @@
-'use strict';
-
+// app.js
 window.onload = () => {
   const form1 = document.querySelector('#addForm');
 
@@ -9,10 +8,10 @@ window.onload = () => {
   let editItem = null;
 
   form1.addEventListener('submit', addItem);
-  items.addEventListener('click', revomeItem);
+  items.addEventListener('click', removeItem);
 };
 
-const addItem = (e) => {
+function addItem(e) {
   e.preventDefault();
 
   if (submit.value != 'Submit') {
@@ -24,13 +23,13 @@ const addItem = (e) => {
     submit.value = 'Submit';
     document.getElementById('item').value = '';
 
-    document.getElementById('labelsuccess').innerHTML =
+    document.getElementById('lblsuccess').innerHTML =
       'Text edited successfully';
 
-    document.getElementById('labelsuccess').style.display = 'block';
+    document.getElementById('lblsuccess').style.display = 'block';
 
-    setTimeout(() => {
-      document.getElementById('labelsuccess').style.display = 'none';
+    setTimeout(function () {
+      document.getElementById('lblsuccess').style.display = 'none';
     }, 3000);
 
     return false;
@@ -41,13 +40,13 @@ const addItem = (e) => {
   else document.getElementById('item').value = '';
 
   let li = document.createElement('li');
-  li.classList = 'list-group-item';
+  li.className = 'list-group-item';
 
-  let deleteBtn = document.createElement('button');
+  let deleteButton = document.createElement('button');
 
-  deleteBtn.className = 'btn-danger btn btn-sm float-right delete';
+  deleteButton.className = 'btn-danger btn btn-sm float-right delete';
 
-  deleteBtn.appendChild(document.createTextNode('Delete'));
+  deleteButton.appendChild(document.createTextNode('Delete'));
 
   let editButton = document.createElement('button');
 
@@ -55,42 +54,37 @@ const addItem = (e) => {
 
   editButton.appendChild(document.createTextNode('Edit'));
 
-  li.appendChild(document.createTextNode('newItem'));
-
+  li.appendChild(document.createTextNode(newItem));
   li.appendChild(deleteButton);
-
   li.appendChild(editButton);
 
   items.appendChild(li);
-};
+}
 
-const removeItem = (e) => {
+function removeItem(e) {
   e.preventDefault();
-
   if (e.target.classList.contains('delete')) {
-    if (confirm('Are you sure you want to remove')) {
+    if (confirm('Are you Sure?')) {
       let li = e.target.parentNode;
       items.removeChild(li);
-
-      document.getElementById('labelsuccess').innerHTML =
+      document.getElementById('lblsuccess').innerHTML =
         'Text deleted successfully';
 
-      document.getElementById('labelsuccess').style.display = 'block';
+      document.getElementById('lblsuccess').style.display = 'block';
 
-      setTimeout(() => {
-        document.getElementById('labelsuccess').style.display = 'none';
+      setTimeout(function () {
+        document.getElementById('lblsuccess').style.display = 'none';
       }, 3000);
     }
   }
-
   if (e.target.classList.contains('edit')) {
     document.getElementById('item').value =
       e.target.parentNode.childNodes[0].data;
     submit.value = 'EDIT';
     editItem = e;
   }
-};
+}
 
-const toggleButton = (ref, btnID) => {
+function toggleButton(ref, btnID) {
   document.getElementById(btnID).disabled = false;
-};
+}
